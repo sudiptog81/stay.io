@@ -11,7 +11,7 @@ services:
       - "5001:5432"
   backend:
     restart: always
-    image: sudiptog81/stayio-backend
+    image: docker.pkg.github.com/sudiptog81/stay.io/stayio-backend
     environment:
       DB_URL: "postgres://stayio:stayio@database:5432/stayio"
       NODE_ENV: "production"
@@ -22,7 +22,7 @@ services:
   frontend:
     build: frontend
     restart: always
-    image: sudiptog81/stayio-frontend
+    image: docker.pkg.github.com/sudiptog81/stay.io/stayio-frontend
     ports:
       - "5003:80"
     links:
