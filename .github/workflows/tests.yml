@@ -1,0 +1,22 @@
+name: Tests Workflow
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Frontend Unit Tests
+        run: |
+          cd frontend
+          sudo npm install -g @vue/cli
+          npm install
+          npm run test
+      - name: Backend Unit Tests
+        run: |
+          cd backend
+          npm install
+          npm run test

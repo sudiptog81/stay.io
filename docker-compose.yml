@@ -1,0 +1,29 @@
+version: "3"
+services:
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_DB: stayio
+      POSTGRES_USER: stayio
+      POSTGRES_PASSWORD: stayio
+    ports:
+      - "5001:5432"
+  backend:
+    restart: always
+    image: sudiptog81/stayio-backend
+    environment:
+      DB_URL: "postgres://stayio:stayio@database:5432/stayio"
+      NODE_ENV: "production"
+    ports:
+      - "5002:5000"
+    links:
+      - "db:database"
+  frontend:
+    build: frontend
+    restart: always
+    image: sudiptog81/stayio-frontend
+    ports:
+      - "5003:80"
+    links:
+      - "backend:api"

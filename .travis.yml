@@ -1,0 +1,29 @@
+version: ~> 1.0
+os: linux
+dist: bionic
+language: node_js
+node_js:
+  - 14
+cache: npm
+jobs:
+  include:
+    - stage: frontend-tests
+      name: "Frontend Unit Tests"
+      before_script:
+        - cd frontend
+        - npm install -g @vue/cli
+        - npm install
+      script: npm run test
+    - stage: backend-tests
+      name: "Backend Unit Tests"
+      before_script:
+        - cd backend
+        - npm install
+      script: npm test
+    - stage: build
+      name: "Build Docker Images"
+      script:
+        - cd frontend
+        - docker build -t stayio-frontend .
+        - cd ../backend
+        - docker build -t stayio-backend .

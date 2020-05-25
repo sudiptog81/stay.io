@@ -1,0 +1,31 @@
+name: Build Workflow
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Frontend Image
+        run: |
+          cd frontend
+          docker build -t stayio-frontend .
+      - name: Build Backend Image
+        run: |
+          cd backend
+          docker build -t stayio-backend .
+      - name: Push Images to Package Registries
+        env:
+          GH_DOCKER_TOKEN: ${{ secrets.GH_DOCKER_TOKEN }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+        run: |
+          echo "$GH_DOCKER_TOKEN" | docker login docker.pkg.github.com -u $GH_USERNAME --password-stdin
+          cd frontend
+          docker build -t stayio-frontend .
+          docker tag stayio-frontend docker.pkg.github.com/$GH_USERNAME/stay.io/stayio-frontend
+          docker push docker.pkg.github.com/$GH_USERNAME/stay.io/stayio-frontend
+          cd ../backend
+          docker build -t stayio-backend .
+          docker tag stayio-backend docker.pkg.github.com/$GH_USERNAME/stay.io/stayio-backend
+          docker push docker.pkg.github.com/$GH_USERNAME/stay.io/stayio-backend
