@@ -1,6 +1,5 @@
 import Vuex from "vuex";
 import BootstrapVue from "bootstrap-vue";
-
 import Sinon from "sinon";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 
@@ -45,11 +44,11 @@ const mockedState = {
 };
 
 const mockedGetters = {
-  currentListing: Sinon.stub(),
+  currentListing: Sinon.fake(),
 };
 
 const mockedActions = {
-  logoutUser: Sinon.stub(),
+  logoutUser: Sinon.fake(),
 };
 
 const store = new Vuex.Store({

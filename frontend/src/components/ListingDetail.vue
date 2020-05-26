@@ -146,9 +146,26 @@
               </b-card-sub-title>
               {{comment.text}}
             </b-card-text>
-            <div class="mt-1">
+            <div>
+              <b-button
+                @click="unlikeCommentTrigger(comment.cid)"
+                v-if="isCommentLikedByUser(comment.cid)"
+                class="mt-2"
+                pill
+                size="sm"
+                variant="dark"
+              >{{ comment.likes }} Liked</b-button>
+              <b-button
+                @click="likeCommentTrigger(comment.cid)"
+                v-else
+                class="mt-2"
+                pill
+                size="sm"
+                variant="outline-dark"
+              >{{ comment.likes }} Like</b-button>
               <b-button
                 v-if="user.profile.uid === comment.by"
+                class="mt-2 ml-2"
                 pill
                 variant="outline-danger"
                 size="sm"
@@ -212,7 +229,11 @@ export default {
       "addComment",
       "addCommentToListing",
       "deleteComment",
-      "deleteCommentFromListing"
+      "deleteCommentFromListing",
+      "likeComment",
+      "addLikedCommentToProfile",
+      "unlikeComment",
+      "deleteLikedCommentFromProfile"
     ]),
     getDateRep(date) {
       const twoHrs = 2 * 60 * 60 * 1000;
@@ -236,6 +257,9 @@ export default {
     isRatedByUser(lid) {
       return this.user.profile.ratedListings.indexOf(lid) !== -1 ? true : false;
     },
+    isCommentLikedByUser(cid) {
+      return this.user.profile.likedComments.indexOf(cid) !== -1 ? true : false;
+    },
     likeListingTrigger(lid) {
       this.likeListing({
         token: this.user.profile.token,
@@ -250,6 +274,22 @@ export default {
         lid
       }).then(r => {
         if (r) this.deleteLikedListingFromProfile(lid);
+      });
+    },
+    likeCommentTrigger(cid) {
+      this.likeComment({
+        token: this.user.profile.token,
+        cid
+      }).then(r => {
+        if (r) this.addLikedCommentToProfile(cid);
+      });
+    },
+    unlikeCommentTrigger(cid) {
+      this.unlikeComment({
+        token: this.user.profile.token,
+        cid
+      }).then(r => {
+        if (r) this.deleteLikedCommentFromProfile(cid);
       });
     },
     addRatingTrigger() {

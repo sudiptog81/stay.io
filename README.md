@@ -115,7 +115,6 @@ The MIT Open-Source License
 ![8](.github/images/8.png)
 ![9](.github/images/9.png)
 ![10](.github/images/10.png)
-![10](.github/images/10.png)
 ![11](.github/images/11.png)
 ![12](.github/images/12.png)
 ![13](.github/images/13.png)

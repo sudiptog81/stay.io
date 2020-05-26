@@ -81,6 +81,13 @@ const actions = {
     (state.profile.ratedListings = state.profile.ratedListings.filter(
       (e) => e !== listing
     )),
+  addLikedCommentToProfile: ({ state }, comment) => {
+    state.profile.likedComments.unshift(comment);
+  },
+  deleteLikedCommentFromProfile: ({ state }, comment) =>
+    (state.profile.likedComments = state.profile.likedComments.filter(
+      (e) => e !== comment
+    )),
   editUserProfile: async ({ commit }, { token, user, uid }) => {
     try {
       const response = await Axios({
