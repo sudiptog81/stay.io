@@ -8,7 +8,9 @@
       </b-navbar-brand>
       <b-sidebar id="sidebar" bg-variant="dark" text-variant="light" shadow>
         <div class="px-4 py-2 text-center">
-          <b-navbar-brand :to="'/'" class="mr-0" id="navbar-logo">stay.io</b-navbar-brand>
+          <b-navbar-brand :to="'/'" class="mr-0" id="navbar-logo"
+            >stay.io</b-navbar-brand
+          >
           <hr class="my-2" />
           <div class="sidebar-menu px-4">
             <ul>
@@ -41,7 +43,9 @@
                 class="text-center"
                 placeholder="search"
               ></b-form-input>
-              <b-button size="sm" class="sr-only" type="submit">Search</b-button>
+              <b-button size="sm" class="sr-only" type="submit"
+                >Search</b-button
+              >
             </b-form-group>
           </b-nav-form>
         </b-navbar-nav>
@@ -62,12 +66,18 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      userSearchTerm: ""
+      userSearchTerm: "",
     };
   },
   methods: {
     ...mapActions(["logoutUser", "fetchSearchResults"]),
     onClickLogout() {
+      if (
+        this.user.profile.isSocial &&
+        this.user.profile.socialType === "facebook"
+      ) {
+        FB.logout();
+      }
       this.logoutUser();
       this.$router.push("/");
     },
@@ -76,14 +86,14 @@ export default {
       this.search.searchTerm = this.userSearchTerm;
       this.fetchSearchResults(this.user.profile.token);
       this.$router.push("/search");
-    }
+    },
   },
   computed: {
-    ...mapState(["user", "search"])
+    ...mapState(["user", "search"]),
   },
   created() {
     if (!this.user.profile.uid) this.$router.push("/login");
-  }
+  },
 };
 </script>
 

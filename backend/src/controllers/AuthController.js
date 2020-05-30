@@ -31,7 +31,22 @@ const logout = (req, res) => {
   res.json({ success: true });
 };
 
+const facebook = (req, res) => {
+  let user = req.user;
+  if (user) {
+    delete user.dataValues.password;
+    delete user.dataValues.salt;
+    jwtGenerate(user.dataValues.uid).then((token) => {
+      user.dataValues.token = token;
+      res.json(user.dataValues);
+    });
+  } else if (!user) {
+    return res.status(500).json({ user, msg: "Login Failed", info });
+  }
+};
+
 module.exports = {
   login,
   logout,
+  facebook,
 };

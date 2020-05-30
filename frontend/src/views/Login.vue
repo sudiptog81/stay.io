@@ -24,6 +24,15 @@
       <b-button type="submit" variant="dark" class="mb-2 btn-block">
         Sign In
       </b-button>
+      <b-form-group class="my-2 text-center">
+        <v-facebook-login
+          app-id="1208166009394539"
+          class="btn-block"
+          v-model="model"
+          @sdk-init="handleSdkInit"
+          @login="handleFbLogin"
+        ></v-facebook-login>
+      </b-form-group>
       <b-form-group class="mt-4 text-center">
         <b-link :to="'register'" class="text-muted">
           Create an Account
@@ -39,16 +48,20 @@
 </template>
 
 <script>
+import VFacebookLogin from "vue-facebook-login-component";
 import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
       email: "",
       password: "",
+      FB: {},
+      scope: {},
+      model: {},
     };
   },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions(["loginUser", "loginFb", "loginGoogle"]),
     onSubmit(e) {
       e.preventDefault();
       this.loginUser({
@@ -60,12 +73,51 @@ export default {
         }
       });
     },
+    handleSdkInit({ FB, scope }) {
+      this.FB = FB;
+      this.scope = scope;
+    },
+    handleFbLogin() {
+      setTimeout(() => {
+        if (this.model.connected) {
+          this.FB.api(
+            "/me",
+            "GET",
+            { fields: "id,first_name,last_name,email" },
+            (user) => {
+              this.loginFb(this.FB.getAuthResponse().accessToken).then(() => {
+                if (this.user.profile.uid) {
+                  this.$router.push("/feed");
+                }
+              });
+            }
+          );
+        }
+      }, 2000);
+    },
+  },
+  components: {
+    VFacebookLogin,
   },
   computed: {
     ...mapState(["user"]),
   },
   created() {
     if (this.user.profile.uid) this.$router.push("/feed");
+    if (this.model.connected) {
+      this.FB.api(
+        "/me",
+        "GET",
+        { fields: "id,first_name,last_name,email" },
+        (user) => {
+          this.loginFb(this.FB.getAuthResponse().accessToken).then(() => {
+            if (this.user.profile.uid) {
+              this.$router.push("/feed");
+            }
+          });
+        }
+      );
+    }
   },
 };
 </script>

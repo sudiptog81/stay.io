@@ -12,11 +12,14 @@ jobs:
           cd frontend
           docker build -t stayio-frontend .
       - name: Build Backend Image
+        env:
+          FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
         run: |
           cd backend
           docker build -t stayio-backend .
       - name: Push Images to Package Registries
         env:
+          FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
           GH_DOCKER_TOKEN: ${{ secrets.GH_DOCKER_TOKEN }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
         run: |

@@ -13,6 +13,7 @@ services:
     restart: always
     image: docker.pkg.github.com/sudiptog81/stay.io/stayio-backend
     environment:
+      FB_APP_SECRET: "${FB_APP_SECRET}"
       DB_URL: "postgres://stayio:stayio@database:5432/stayio"
       NODE_ENV: "production"
     ports:

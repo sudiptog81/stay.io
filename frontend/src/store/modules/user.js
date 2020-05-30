@@ -28,6 +28,42 @@ const actions = {
       console.error(error);
     }
   },
+  loginFb: async ({ commit }, token) => {
+    try {
+      const response = await Axios({
+        method: "get",
+        url: API_URL + "/api/auth/facebook",
+        params: { access_token: token },
+      });
+      commit("setUser", response.data);
+    } catch (error) {
+      Vue.toasted.error("Login Failed", {
+        duration: 5000,
+        position: "bottom-center",
+        icon: "exclamation-circle",
+        iconPack: "fontawesome",
+      });
+      console.error(error);
+    }
+  },
+  loginGoogle: async ({ commit }, token) => {
+    try {
+      const response = await Axios({
+        method: "post",
+        url: API_URL + "/api/auth/google",
+        data: { id_token: token },
+      });
+      commit("setUser", response.data);
+    } catch (error) {
+      Vue.toasted.error("Login Failed", {
+        duration: 5000,
+        position: "bottom-center",
+        icon: "exclamation-circle",
+        iconPack: "fontawesome",
+      });
+      console.error(error);
+    }
+  },
   logoutUser: ({ commit }) => {
     commit("unsetUser");
   },
