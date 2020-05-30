@@ -6,7 +6,7 @@ const db = require("../src/config/database");
 let uid, token, providerUid, providerToken, lid, lid2, cid, cid2, rid, rid2;
 
 beforeAll(async () => {
-  await db.sync();
+  await db.sync({ force: true });
 });
 
 describe("user management apis", () => {
