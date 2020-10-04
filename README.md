@@ -35,11 +35,13 @@ server {
 
 Replace the temporary API endpoint with `<your-domain>` in `frontend/src/api/config.js`.
 
+Add a Facebook API Secret in `.env` as `FB_API_SECRET=<your-secret>`
+
 Use `docker-compose` as the container orchestrator to spin up all required services. The command that is to be executed is given below.
 
 ```bash
 sudo docker-compose -f docker-compose.yml up \
-                    -d --build frontend
+                    -d --build frontend &
 ```
 
 The `docker-compose.yml` in the root of the repository exposes various aspects of the application at the given ports.
