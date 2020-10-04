@@ -239,5 +239,6 @@ describe("comment management apis", () => {
 
 afterAll(async () => {
   await db.drop();
+  await db.sync({ force: true });
   await db.close();
 });
