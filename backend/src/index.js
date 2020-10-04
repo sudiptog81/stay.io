@@ -1,7 +1,7 @@
 const app = require("./server");
 const db = require("./config/database");
 
-db.sync();
+db.sync({force: true});
 
 const PORT = 5000;
 
