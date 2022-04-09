@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.31",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
