@@ -13,7 +13,7 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
     "moment": "^2.26.0",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-aos": "^1.0.1",
